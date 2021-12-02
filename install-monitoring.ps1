@@ -7,6 +7,7 @@
 #        Ajout variable chemin du partage (adapter selon le client)           
 #        Ajout variables pour configuration snmp sans GPO (adapter selon le client)           
 ###########################################################################################
+##test
 
 $CheminInstallNsClient = 'C:\Program Files\Centreon NSClient++'
 $SnmpManagers = '192.168.10.11'
