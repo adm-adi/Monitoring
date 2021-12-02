@@ -15,28 +15,23 @@ $SnmpCommunity = 'snixionmp'
 $IsSnmpInstalled = Get-WindowsFeature SNMP-Service
 $IsRSATSnmpInstalled = Get-WindowsFeature RSAT-SNMP
 $path = “c:\nsclientinstall”
-$NsClientSharePath = '\\SRVV-MGT02\nsclientinstall\*'
+$NsClientSharePath = '\\SRVV-MGT02\nsclientinstall\*' #à modifier selon le client. Il faut faire un partage où les serveurs vont rechercher les ressources
 $NsClientVersionActuelle = get-wmiobject -Query "select name,version from win32_product where name = 'NSClient++ (x64)'"
 $NsClientVersionNouvelle = '0.5.2.41'
 $NsClientVersionAncienne = '0.4.3.143'
 $ProcessActive = Get-Process cmd -ErrorAction SilentlyContinue
-$confirmation = Read-Host "Do you want to check if all is correctly installed ?"
 
 
+#Vérification et installation SNMP
 if(!$IsSnmpInstalled.Installed -eq $true) {
 Install-WindowsFeature SNMP-Service -IncludeAllSubFeature -Verbose
 }
 
-
-
 if(!$IsRSATSnmpInstalled.Installed -eq $true) {
 Install-WindowsFeature RSAT-SNMP -IncludeAllSubFeature -Verbose
 }
-
-
-New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\SNMP\Parameters\PermittedManagers" -Name 2 -Value $SnmpManagers
-New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities" -Name $SnmpCommunity -Value 4
-
+New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\SNMP\Parameters\PermittedManagers" -Name 2 -Value $SnmpManagers -ErrorAction SilentlyContinue
+New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities" -Name $SnmpCommunity -Value 4 -ErrorAction SilentlyContinue
 
 if(!(Test-Path -Path $path))
   {
@@ -46,7 +41,7 @@ if(!(Test-Path -Path $path))
   }
 
 
-
+#Install Centreon-Nsclient
 
 if($NsClientVersionActuelle.Version -eq $NsClientVersionAncienne) {
 
@@ -70,8 +65,7 @@ elseif(!(Test-Path $CheminInstallNsClient))
    Start-Process C:\nsclientinstall\nsclient\setup.bat -Verb runas
   }
 
-
-
+#Suppression du dossier d'installation sur le serveur local
 if($ProcessActive -eq $null){
     Write-host "Not Running"
     Remove-Item -Recurse -Force $path
@@ -82,11 +76,12 @@ Write-Output "Done."
 
 
 #Check que tout soit bien installé dans le serveur
+$confirmation = Read-Host "Do you want to check if all is correctly installed ?"
 if ($confirmation -eq 'y') {
     Write-host `n "Version Centreon Nsclient:" $NsClientVersionActuelle.Version 
 
     Write-Host `n "SNMP installed:"
-    if(!$IsSnmpInstalled.Installed -eq $true) {
+    if($IsSnmpInstalled.Installed -eq $true) {
         Write-Host " yes"
             }else{
                 Write-Host " Nope"
