@@ -20,6 +20,8 @@ $NsClientVersionActuelle = get-wmiobject -Query "select name,version from win32_
 $NsClientVersionNouvelle = '0.5.2.41'
 $NsClientVersionAncienne = '0.4.3.143'
 $ProcessActive = Get-Process cmd -ErrorAction SilentlyContinue
+$confirmation = Read-Host "Do you want to check if all is correctly installed ?"
+
 
 if(!$IsSnmpInstalled.Installed -eq $true) {
 Install-WindowsFeature SNMP-Service -IncludeAllSubFeature -Verbose
@@ -68,11 +70,26 @@ elseif(!(Test-Path $CheminInstallNsClient))
    Start-Process C:\nsclientinstall\nsclient\setup.bat -Verb runas
   }
 
-$ProcessActive = Get-Process cmd -ErrorAction SilentlyContinue
+
+
 if($ProcessActive -eq $null){
-    Write-host "Running"
-}else{
-    Write-Host "Not Running"
+    Write-host "Not Running"
+    Remove-Item -Recurse -Force $path
 }
 
 Write-Output "Done."
+
+
+$confirmation = Read-Host "Do you want to check if all is correctly installed ?"
+#Check que tout soit bien installé dans le serveur
+if ($confirmation -eq 'y') {
+    Write-host `n "Version Centreon Nsclient:" $NsClientVersionActuelle.Version 
+
+    Write-Host `n "SNMP installed:"
+    if(!$IsSnmpInstalled.Installed -eq $true) {
+        Write-Host " yes"
+            }else{
+                Write-Host " Nope"
+            }
+
+}
