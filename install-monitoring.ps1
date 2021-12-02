@@ -48,7 +48,7 @@ if(!(Test-Path -Path $path))
 
 if($NsClientVersionActuelle.Version -eq $NsClientVersionAncienne) {
 
-Write-Output "Ancienne version detectee" $NsClientVersionActuelle.Version
+Write-Output "old version detected" $NsClientVersionActuelle.Version
 set-location 'C:\Program Files\centreon-nsclient\'
 Start-Process .\Uninst.exe /S
 Start-Process C:\nsclientinstall\nsclient\setup.bat -Verb runas
@@ -57,7 +57,7 @@ Start-Process C:\nsclientinstall\nsclient\setup.bat -Verb runas
 elseif($NsClientVersionActuelle.Version -eq $NsClientVersionNouvelle)
 {
 
-write-output "derniere version deja installee"
+write-output "last version installed"
 
 exit
 
