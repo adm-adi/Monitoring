@@ -14,7 +14,7 @@ $SnmpManagers = '192.168.10.11'
 $SnmpCommunity = 'snixionmp'
 $IsSnmpInstalled = Get-WindowsFeature SNMP-Service
 $IsRSATSnmpInstalled = Get-WindowsFeature RSAT-SNMP
-$path = “c:\nsclientinstall”
+$path = "c:\nsclientinstall"
 $NsClientSharePath = '\\SRVV-MGT02\nsclientinstall\*' #à modifier selon le client. Il faut faire un partage où les serveurs vont rechercher les ressources
 $NsClientVersionActuelle = get-wmiobject -Query "select name,version from win32_product where name = 'NSClient++ (x64)'"
 $NsClientVersionNouvelle = '0.5.2.41'
@@ -38,7 +38,7 @@ New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\SNMP\Parameters\
 #Copie du dossier d'installation partagé vers serveur local######################################################################################################
 if(!(Test-Path -Path $path))
   {
-   new-item -Path $path -Value $path –itemtype Directory
+   new-item -Path $path -Value $path -itemtype Directory
    Copy-Item -path $NsClientSharePath -destination $path -Recurse -Force
    
   }
@@ -48,7 +48,7 @@ if(!(Test-Path -Path $path))
 
 if($NsClientVersionActuelle.Version -eq $NsClientVersionAncienne) {
 
-Write-Output "Ancienne version détectée " $NsClientVersionActuelle.Version
+Write-Output "Ancienne version detectee" $NsClientVersionActuelle.Version
 set-location 'C:\Program Files\centreon-nsclient\'
 Start-Process .\Uninst.exe /S
 Start-Process C:\nsclientinstall\nsclient\setup.bat -Verb runas
@@ -57,7 +57,8 @@ Start-Process C:\nsclientinstall\nsclient\setup.bat -Verb runas
 elseif($NsClientVersionActuelle.Version -eq $NsClientVersionNouvelle)
 {
 
-write-output "dernière version déjà installée."
+write-output "derniere version deja�installee"
+
 exit
 
 }
