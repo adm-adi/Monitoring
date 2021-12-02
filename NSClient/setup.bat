@@ -4,7 +4,7 @@ REM Voir FICHIER \NSC-ONLY_INSTALL\README.txt pour les instructions
 
 REM Date	: 13.08.2018
 REM Auteur	: adm_cfr
-REM Description : Script d'installation de NSclient. Copier les sources dans le sous-rÃ©pertoire \NSclient. Il faut qu'il y ait un seul .exe pour le setup.
+REM Description : Script d'installation de NSclient. Copier les sources dans le sous-répertoire \NSclient. Il faut qu'il y ait un seul .exe pour le setup.
 REM Modification: adm_adi, adm_bfo - 01.12.2021 - suppression des pauses pour run silent
 
 REM ATTENTION	: LANCER LE SCRIPT EN TANT QU'ADMIN
@@ -37,9 +37,6 @@ ECHO =============================================================
 ECHO. Installation de NSclient++
 ECHO =============================================================
 ECHO.
-ECHO. ATTENTION : La machine risque de redemarrer !
-ECHO. Si c'est le cas, copier manuellement les fichiers NSclient
-ECHO. apres le reboot de la machine
 ECHO.
 ECHO. NB : L'installation se fait en mode silent
 ECHO.
