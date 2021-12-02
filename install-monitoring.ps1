@@ -80,7 +80,7 @@ if($ProcessActive -eq $null){
 Write-Output "Done."
 
 
-$confirmation = Read-Host "Do you want to check if all is correctly installed ?"
+
 #Check que tout soit bien installé dans le serveur
 if ($confirmation -eq 'y') {
     Write-host `n "Version Centreon Nsclient:" $NsClientVersionActuelle.Version 
@@ -92,4 +92,7 @@ if ($confirmation -eq 'y') {
                 Write-Host " Nope"
             }
 
+}else{
+    Write-Host "Bye."
+    Exit
 }
