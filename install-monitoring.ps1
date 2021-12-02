@@ -7,7 +7,7 @@
 #        Ajout variable chemin du partage (adapter selon le client)           
 #        Ajout variables pour configuration snmp sans GPO (adapter selon le client)           
 ###########################################################################################
-##test
+
 
 $CheminInstallNsClient = 'C:\Program Files\Centreon NSClient++'
 $SnmpManagers = '192.168.10.11'
@@ -19,6 +19,7 @@ $NsClientSharePath = '\\SRVV-MGT02\nsclientinstall\*'
 $NsClientVersionActuelle = get-wmiobject -Query "select name,version from win32_product where name = 'NSClient++ (x64)'"
 $NsClientVersionNouvelle = '0.5.2.41'
 $NsClientVersionAncienne = '0.4.3.143'
+$ProcessActive = Get-Process cmd -ErrorAction SilentlyContinue
 
 if(!$IsSnmpInstalled.Installed -eq $true) {
 Install-WindowsFeature SNMP-Service -IncludeAllSubFeature -Verbose
@@ -66,5 +67,12 @@ elseif(!(Test-Path $CheminInstallNsClient))
 {
    Start-Process C:\nsclientinstall\nsclient\setup.bat -Verb runas
   }
+
+$ProcessActive = Get-Process cmd -ErrorAction SilentlyContinue
+if($ProcessActive -eq $null){
+    Write-host "Running"
+}else{
+    Write-Host "Not Running"
+}
 
 Write-Output "Done."
