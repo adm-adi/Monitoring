@@ -1,4 +1,4 @@
-﻿###########################################################################################
+###########################################################################################
 # Script basique pour l'installation automatique du service SNMP 
 # et de l'agent Centreon-Nsclient chez OA SA
 #
@@ -22,7 +22,7 @@ $NsClientVersionAncienne = '0.4.3.143'
 $ProcessActive = Get-Process cmd -ErrorAction SilentlyContinue
 
 
-#Vérification et installation SNMP
+#Vérification et installation SNMP###############################################################################################################################
 if(!$IsSnmpInstalled.Installed -eq $true) {
 Install-WindowsFeature SNMP-Service -IncludeAllSubFeature -Verbose
 }
@@ -33,15 +33,18 @@ Install-WindowsFeature RSAT-SNMP -IncludeAllSubFeature -Verbose
 New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\SNMP\Parameters\PermittedManagers" -Name 2 -Value $SnmpManagers -ErrorAction SilentlyContinue
 New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities" -Name $SnmpCommunity -Value 4 -ErrorAction SilentlyContinue
 
+#################################################################################################################################################################
+
+#Copie du dossier d'installation partagé vers serveur local######################################################################################################
 if(!(Test-Path -Path $path))
   {
    new-item -Path $path -Value $path –itemtype Directory
    Copy-Item -path $NsClientSharePath -destination $path -Recurse -Force
    
   }
+#################################################################################################################################################################
 
-
-#Install Centreon-Nsclient
+#Install Centreon-Nsclient#######################################################################################################################################
 
 if($NsClientVersionActuelle.Version -eq $NsClientVersionAncienne) {
 
@@ -64,18 +67,21 @@ elseif(!(Test-Path $CheminInstallNsClient))
 {
    Start-Process C:\nsclientinstall\nsclient\setup.bat -Verb runas
   }
+#################################################################################################################################################################
 
-#Suppression du dossier d'installation sur le serveur local
+#Suppression du dossier d'installation sur le serveur local######################################################################################################
 if($ProcessActive -eq $null){
     Write-host "Not Running"
     Remove-Item -Recurse -Force $path
 }
 
 Write-Output "Done."
+#################################################################################################################################################################
 
 
 
-#Check que tout soit bien installé dans le serveur
+
+#Check que tout soit bien installé dans le serveur###############################################################################################################
 $confirmation = Read-Host "Do you want to check if all is correctly installed ?"
 if ($confirmation -eq 'y') {
     Write-host `n "Version Centreon Nsclient:" $NsClientVersionActuelle.Version 
@@ -91,3 +97,4 @@ if ($confirmation -eq 'y') {
     Write-Host "Bye."
     Exit
 }
+#################################################################################################################################################################
