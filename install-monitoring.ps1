@@ -10,7 +10,7 @@
 
 
 $CheminInstallNsClient = 'C:\Program Files\Centreon NSClient++'
-$SnmpManagers = '192.168.10.11'
+$SnmpManagers = '10.110.1.98,10.110.1.116,10.110.1.99,10.110.1.96,10.110.1.97,10.110.1.95' -split ','
 $SnmpCommunity = 'snixionmp'
 $IsSnmpInstalled = Get-WindowsFeature SNMP-Service
 $IsRSATSnmpInstalled = Get-WindowsFeature RSAT-SNMP
