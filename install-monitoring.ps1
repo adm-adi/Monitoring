@@ -8,6 +8,13 @@
 #        Ajout variables pour configuration snmp sans GPO (adapter selon le client)           
 ###########################################################################################
 
+## Info importante
+##
+## Il faut créer un dossier qui sera partagé et accessible par les serveurs de l'infra, il faudra copier dans ce dossier partagé ce script 
+## avec le dossier nsclient.
+##
+## Ensuite, il faut modifier la variable $NsClientSharePath avec le lien direct du dossier partagé.
+
 
 $CheminInstallNsClient = 'C:\Program Files\Centreon NSClient++'
 $SnmpManagers = '10.110.1.98,10.110.1.116,10.110.1.99,10.110.1.96,10.110.1.97,10.110.1.95' -split ','
@@ -15,7 +22,7 @@ $SnmpCommunity = 'snixionmp'
 $IsSnmpInstalled = Get-WindowsFeature SNMP-Service
 $IsRSATSnmpInstalled = Get-WindowsFeature RSAT-SNMP
 $path = "c:\nsclientinstall"
-$NsClientSharePath = '\\SRVV-MGT02\nsclientinstall\*' #Ã  modifier selon le client. Il faut faire un partage oÃ¹ les serveurs vont rechercher les ressources
+$NsClientSharePath = '\\X.X.X.X\nsclientinstall\*' #Ã  modifier selon le client. Il faut faire un partage oÃ¹ les serveurs vont rechercher les ressources
 $NsClientVersionActuelle = get-wmiobject -Query "select name,version from win32_product where name = 'NSClient++ (x64)'"
 $NsClientVersionNouvelle = '0.5.2.41'
 $NsClientVersionAncienne = '0.4.3.143'
