@@ -90,12 +90,11 @@ Write-Output "Done."
 
 
 #Check que tout soit bien installé dans le serveur###############################################################################################################
-$IsSnmpInstalled = Get-WindowsFeature SNMP-Service
-$NsClientVersionActuelle = get-wmiobject -Query "select name,version from win32_product where name = 'NSClient++ (x64)'"
 $confirmation = Read-Host "Do you want to check if all is correctly installed ?"
 if ($confirmation -eq 'y') {
+    $NsClientVersionActuelle = get-wmiobject -Query "select name,version from win32_product where name = 'NSClient++ (x64)'"
     Write-host `n "Version Centreon Nsclient:" $NsClientVersionActuelle.Version 
-
+    $IsSnmpInstalled = Get-WindowsFeature SNMP-Service
     Write-Host `n "SNMP installed:"
     if($IsSnmpInstalled.Installed -eq $true) {
         Write-Host " yes"
