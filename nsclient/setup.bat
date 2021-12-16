@@ -37,7 +37,6 @@ ECHO. Installation de NSclient++
 ECHO =============================================================
 ECHO.
 ECHO.
-PAUSE
 ECHO.
 ECHO. Installation NSclient en cours...
 FOR /f "tokens=*" %%G IN ('dir /b %nscPath%\centreon-nsclient*.exe') DO start /wait %nscPath%\%%G /S
@@ -47,7 +46,6 @@ ECHo.
 ECHO.
 shutdown /a
 ECHO.
-PAUSE
 CLS
 ECHO.
 ECHO =============================================================
@@ -61,13 +59,11 @@ xcopy "%nscPath%\nsclient\scripts" "C:\Program Files\Centreon NSClient++\scripts
 ECHO.
 ECHO. Copie des fichiers NSclient terminee !
 ECHO.
-PAUSE
 CLS
 ECHO.
 ECHO =============================================================
 ECHO. Installation NSclient terminee !
 ECHO =============================================================
 ECHO.
-PAUSE
 ENDLOCAL
 EXIT
