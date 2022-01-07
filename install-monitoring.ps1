@@ -2,7 +2,7 @@
 # Script basique pour l'installation automatique du service SNMP 
 # et de l'agent Centreon-Nsclient chez OA SA
 #
-#        Copyright© adm_bfo, adm_adi
+#        CopyrightÂ© adm_bfo, adm_adi
 #        Date: 01.12.2021
 #        Ajout variable chemin du partage (adapter selon le client)           
 #        Ajout variables pour configuration snmp sans GPO (adapter selon le client)           
@@ -10,26 +10,26 @@
 
 ## Info importante
 ##
-## Il faut cr�er un dossier qui sera partag� et accessible par les serveurs de l'infra, il faudra copier dans ce dossier partag� ce script 
+## Il faut créer un dossier qui sera partagé et accessible par les serveurs de l'infra, il faudra copier dans ce dossier partagé ce script 
 ## avec le dossier nsclient.
 ##
-## Ensuite, il faut modifier la variable $NsClientSharePath avec le lien direct du dossier partag�.
+## Ensuite, il faut modifier la variable $NsClientSharePath avec le lien direct du dossier partagé.
 
 
 $CheminInstallNsClient = 'C:\Program Files\Centreon NSClient++'
-$SnmpManagers = '10.110.1.98,10.110.1.116,10.110.1.99,10.110.1.96,10.110.1.97,10.110.1.95' -split ','
+$SnmpManagers = 'Adresses des pollers'
 $SnmpCommunity = 'snixionmp'
 $IsSnmpInstalled = Get-WindowsFeature SNMP-Service
 $IsRSATSnmpInstalled = Get-WindowsFeature RSAT-SNMP
 $path = "c:\nsclientinstall"
-$NsClientSharePath = '\\X.X.X.X\nsclientinstall\*' #à modifier selon le client. Il faut faire un partage où les serveurs vont rechercher les ressources
+$NsClientSharePath = '\\X.X.X.X\nsclientinstall\*' #Ã  modifier selon le client. Il faut faire un partage oÃ¹ les serveurs vont rechercher les ressources
 $NsClientVersionActuelle = get-wmiobject -Query "select name,version from win32_product where name = 'NSClient++ (x64)'"
 $NsClientVersionNouvelle = '0.5.2.41'
 $NsClientVersionAncienne = '0.4.3.143'
 $ProcessActive = Get-Process cmd -ErrorAction SilentlyContinue
 
 
-#Vérification et installation SNMP###############################################################################################################################
+#VÃ©rification et installation SNMP###############################################################################################################################
 if(!$IsSnmpInstalled.Installed -eq $true) {
 Install-WindowsFeature SNMP-Service -IncludeAllSubFeature -Verbose
 }
@@ -42,7 +42,7 @@ New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\SNMP\Parameters\
 
 #################################################################################################################################################################
 
-#Copie du dossier d'installation partagé vers serveur local######################################################################################################
+#Copie du dossier d'installation partagÃ© vers serveur local######################################################################################################
 if(!(Test-Path -Path $path))
   {
    new-item -Path $path -Value $path -itemtype Directory
@@ -89,7 +89,7 @@ Write-Output "Done."
 #################################################################################################################################################################
 
 
-#Check que tout soit bien installé dans le serveur###############################################################################################################
+#Check que tout soit bien installÃ© dans le serveur###############################################################################################################
 $confirmation = Read-Host "Do you want to check if all is correctly installed ?"
 if ($confirmation -eq 'y') {
     $NsClientVersionActuelle = get-wmiobject -Query "select name,version from win32_product where name = 'NSClient++ (x64)'"
